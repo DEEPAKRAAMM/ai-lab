@@ -1,0 +1,111 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNqr2dkdmVm8fcteZII3enM",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/DEEPAKRAAMM/ai-lab/blob/main/ai%20lab%207\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "UlhoNxRCbBKC",
+        "outputId": "2e14f657-69aa-48ac-8b91-39a68f8861a0"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "UNIFICATION IN FIRST ORDER LOGIC\n",
+            "Enter first expression: eats(x,apple)\n",
+            "Enter second expression: eats(riya,y)\n",
+            "Unification is possible\n",
+            "MGU: {'x': 'riya', 'y': 'apple'}\n"
+          ]
+        }
+      ],
+      "source": [
+        "def unify(x, y, sub):\n",
+        "    if x == y:\n",
+        "        return True\n",
+        "\n",
+        "    # Variables are x, y, z\n",
+        "    if x in ['x', 'y', 'z']:\n",
+        "        if x in sub:\n",
+        "            return unify(sub[x], y, sub)\n",
+        "        sub[x] = y\n",
+        "        return True\n",
+        "\n",
+        "    if y in ['x', 'y', 'z']:\n",
+        "        if y in sub:\n",
+        "            return unify(x, sub[y], sub)\n",
+        "        sub[y] = x\n",
+        "        return True\n",
+        "\n",
+        "    return False\n",
+        "\n",
+        "\n",
+        "def main():\n",
+        "    print(\"UNIFICATION IN FIRST ORDER LOGIC\")\n",
+        "\n",
+        "    exp1 = input(\"Enter first expression: \")\n",
+        "    exp2 = input(\"Enter second expression: \")\n",
+        "\n",
+        "    try:\n",
+        "        p1 = exp1[:exp1.index(\"(\")].strip()\n",
+        "        p2 = exp2[:exp2.index(\"(\")].strip()\n",
+        "\n",
+        "        a1 = exp1[exp1.index(\"(\")+1:exp1.rindex(\")\")].split(\",\")\n",
+        "        a2 = exp2[exp2.index(\"(\")+1:exp2.rindex(\")\")].split(\",\")\n",
+        "\n",
+        "        a1 = [i.strip() for i in a1]\n",
+        "        a2 = [i.strip() for i in a2]\n",
+        "\n",
+        "        if p1 != p2 or len(a1) != len(a2):\n",
+        "            print(\"Unification is not possible\")\n",
+        "            return\n",
+        "\n",
+        "        sub = {}\n",
+        "\n",
+        "        for x, y in zip(a1, a2):\n",
+        "            if not unify(x, y, sub):\n",
+        "                print(\"Unification is not possible\")\n",
+        "                return\n",
+        "\n",
+        "        print(\"Unification is possible\")\n",
+        "        print(\"MGU:\", sub)\n",
+        "\n",
+        "    except (ValueError, IndexError):\n",
+        "        print(\"Invalid expression\")\n",
+        "\n",
+        "\n",
+        "main()\n"
+      ]
+    }
+  ]
+}
